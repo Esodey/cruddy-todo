@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const sprintf = require('sprintf-js').sprintf;
+const index = require('./index.js');
 
 var counter = 0;
 
@@ -38,25 +39,10 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-
-exports.getNextUniqueId = () => { // ask the server what is the current counter and determine what the next counter should be
+exports.getNextUniqueId = (callback) => { // ask the server what is the current counter and determine what the next counter should be
   readCounter((err, count) => {
-    if (err) {
-      throw ('error reading counter');
-    } else {
-      count++;
-      writeCounter(count, (err, numString) => {
-        if (err) {
-          throw ('error writing counter');
-        } else {
-          console.log(numString); // () =>  // write to the dataStore
-        }
-      });
-    }
+    writeCounter(count + 1, callback);
   });
-
-  counter = counter + 1; // currently looking up the local counter
-  return zeroPaddedNumber(counter); // incrementing counter and retunring counter with zero padding
 };
 
 /*
@@ -65,7 +51,6 @@ when server receives a new todo message,
 So, asks server for current counter,
 then, increments counter
 then, attaches incremented counter to todo message and writes it to the server.
-
 */
 
 
