@@ -57,7 +57,7 @@ exports.readAll = (callback) => {
 // should retrieve all the contents of all stored todo list files
 
 exports.readOne = (id, callback) => {
-  let filePath = path.join(exports.dataDir, `${id}.txt`); 
+  let filePath = path.join(exports.dataDir, `${id}.txt`);
   fs.readFile(filePath, (err, text) => {
     if (err) {
       callback(err);
@@ -75,25 +75,48 @@ exports.readOne = (id, callback) => {
 // should retrieve the contents of one todo list file
 
 exports.update = (id, text, callback) => {
-  var item = items[id];
-  if (!item) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    items[id] = text;
-    callback(null, { id, text });
-  }
+  let filePath = path.join(exports.dataDir, `${id}.txt`);
+  fs.readFile(filePath, (err) => {
+    if (err) {
+      callback(err);
+    } else {
+      fs.writeFile(filePath, text, (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, {id, text});
+        }
+      });
+    }
+  });
+  // var item = items[id];
+  // if (!item) {
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   items[id] = text;
+  //   callback(null, { id, text });
+  // }
 };
 // should be able to update the contents or status of a particular todo list file
 
 exports.delete = (id, callback) => {
-  var item = items[id];
-  delete items[id];
-  if (!item) {
-    // report an error if item not found
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback();
-  }
+  let filePath = path.join(exports.dataDir, `${id}.txt`);
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback();
+    }
+  });
+
+  // var item = items[id];
+  // delete items[id];
+  // if (!item) {
+  //   // report an error if item not found
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   callback();
+  // }
 };
 // should delete a specific todo list file
 
