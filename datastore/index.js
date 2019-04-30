@@ -12,19 +12,16 @@ exports.create = (text, callback) => {
     if (err) {
       throw ('error getting unique id');
     } else {
-      fs.writeFile(path.join(id, `${text}.txt`), text, (err) => { // need to ensure 
+      let filePath = path.join(exports.dataDir, `${id}.txt`); // 
+      fs.writeFile(filePath, text, (err) => {
         if (err) {
           throw ('error writing file');
         } else {
-          callback;
+          callback(null, { id, text });
         }
       });
     }
   });
-  /////////////////
-  // var id = counter.getNextUniqueId();
-  // items[id] = text;
-  // callback(null, { id, text });
 };
 /*
 exports.create should save every todo in its own file
