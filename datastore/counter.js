@@ -49,7 +49,7 @@ exports.getNextUniqueId = () => { // ask the server what is the current counter 
         if (err) {
           throw ('error writing counter');
         } else {
-          () =>  // write to the dataStore
+          console.log(numString); // () =>  // write to the dataStore
         }
       });
     }
