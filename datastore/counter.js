@@ -38,10 +38,35 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-exports.getNextUniqueId = () => {
-  counter = counter + 1;
-  return zeroPaddedNumber(counter);
+
+exports.getNextUniqueId = () => { // ask the server what is the current counter and determine what the next counter should be
+  readCounter((err, count) => {
+    if (err) {
+      throw ('error reading counter');
+    } else {
+      count++;
+      writeCounter(count, (err, numString) => {
+        if (err) {
+          throw ('error writing counter');
+        } else {
+          () =>  // write to the dataStore
+        }
+      });
+    }
+  });
+
+  counter = counter + 1; // currently looking up the local counter
+  return zeroPaddedNumber(counter); // incrementing counter and retunring counter with zero padding
 };
+
+/*
+when server receives a new todo message,
+  server wants to save new message to the server, but it needs to determine the correct counter to send along
+So, asks server for current counter,
+then, increments counter
+then, attaches incremented counter to todo message and writes it to the server.
+
+*/
 
 
 
