@@ -53,8 +53,6 @@ then, increments counter
 then, attaches incremented counter to todo message and writes it to the server.
 */
 
-
-
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
 exports.counterFile = path.join(__dirname, 'counter.txt');
